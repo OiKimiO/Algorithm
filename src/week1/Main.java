@@ -1,23 +1,20 @@
-package hash;
+package week1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class Question5 {
+public class Main {
     public static void main(String[] args) {
         String[] genres = new String[]{"classic", "pop", "classic", "classic", "pop"};
         int[] plays = new int[]{500, 600, 150, 800, 2500};
         Map<String,Integer> head = new HashMap<>();
-        Map<String, List<Main.PlayHist>> item = new HashMap<>();
+        Map<String,List<PlayHist>> item = new HashMap<>();
 
         // head
         for (int i = 0; i < genres.length; i++) {
             String genre = genres[i];
             int play = plays[i];
-            Main.PlayHist playHist = new Main.PlayHist(i,play);
-            List<Main.PlayHist> playHists;
+            PlayHist playHist = new PlayHist(i,play);
+            List<PlayHist> playHists;
 
             if(head.getOrDefault(genre,0) == 0){
                 head.put(genre, play);
@@ -38,7 +35,7 @@ public class Question5 {
         StringBuffer sb = new StringBuffer();
         for (String key : keySet) {
             int count = 0;
-            List<Main.PlayHist> playHists = item.get(key);
+            List<PlayHist> playHists = item.get(key);
 
             // play가 높은 순서로, 만약 play가 같다면 idx가 낮은 순서로 정렬
             playHists.sort((p1, p2) -> {
@@ -49,7 +46,7 @@ public class Question5 {
                 }
             });
 
-            for (Main.PlayHist playHist : playHists) {
+            for (PlayHist playHist : playHists) {
                 if(count == 2){
                     break;
                 }
@@ -59,6 +56,7 @@ public class Question5 {
             }
         }
 
+        System.out.println(sb.subSequence(0,sb.length()-1));
         String[] split = sb.subSequence(0, sb.length() - 1).toString().split(",");
         int length = split.length;
         int[] answer = new int[length];
