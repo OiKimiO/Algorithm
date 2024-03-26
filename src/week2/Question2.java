@@ -11,21 +11,25 @@ public class Question2 {
 
         List<Integer> list = new ArrayList<>();
         Stack<Integer> stk = new Stack<>();
-        int count = 0;
-        for (int i = 0; i < progresses.length; i++) {
-            int progress = progresses[i];
-            double speed = speeds[i];
-            double remain = 100 - progress;
-            int day = (int) Math.ceil(remain/speed);
+        int count = 1;
+        stk.add(getRemain(progresses, speeds, 0));
 
-            if(stk.isEmpty()){
+        for (int i = 1; i < progresses.length; i++) {
+            int day = getRemain(progresses, speeds, i);
+
+            if(stk.peek() < day){
+                stk.pop();
                 stk.add(day);
-                count++;
+                list.add(count);
+                count = 1;
                 continue;
             }
 
-            int different = stk.peek() - day;
+            count++;
+        }
 
+        if(!stk.isEmpty()){
+            list.add(count);
         }
 
         int[] answer = new int[list.size()];
@@ -36,5 +40,14 @@ public class Question2 {
         }
 
         System.out.println(list);
+    }
+
+    private static int getRemain(int[] progresses, int[] speeds, int i) {
+        int progress = progresses[i];
+        double speed = speeds[i];
+        double remain = 100 - progress;
+        int day = (int) Math.ceil(remain/speed);
+
+        return day;
     }
 }
